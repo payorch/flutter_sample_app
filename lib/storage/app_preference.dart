@@ -11,6 +11,7 @@ const String keyTheme = "keyTheme";
 const String keyShowBilling = "keyShowBilling";
 const String keyShowShipping = "keyShowShipping";
 const String keyShowSaveCard = "keyShowSaveCard";
+const String keyCardOnFile = "keyCardOnFile";
 const String keyMerchantRefId = "keyMerchantRefId";
 const String keyInitiated = "keyInitiated";
 const String keyCustomerEmail = "keyCustomerEmail";

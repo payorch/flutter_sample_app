@@ -2,6 +2,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/storage/app_preference.dart';
+import 'package:test_app/ui/configuration/includes/address.dart';
+import 'package:test_app/ui/configuration/includes/payment_detail.dart';
+import 'package:test_app/ui/configuration/includes/tab_selector.dart';
 import 'package:test_app/utils/HexColor.dart';
 
 class Configuration extends StatefulWidget {
@@ -22,6 +25,7 @@ class ConfigurationState extends State<Configuration> {
     "show_billing": false,
     "show_shipping": false,
     "show_save_card": false,
+    "card_on_file": false,
   };
 
   final List<String> _themeOptions = [
@@ -45,11 +49,6 @@ class ConfigurationState extends State<Configuration> {
     'AuthorizeCapture'
   ];
 
-  final List<String> _initiatedItem = [
-    'Internet',
-    'Merchant',
-  ];
-
   final TextEditingController _merchantKeyController = TextEditingController();
   final TextEditingController _merchantPasswordController =
       TextEditingController();
@@ -62,15 +61,17 @@ class ConfigurationState extends State<Configuration> {
   final TextEditingController _customerEmailController =
       TextEditingController();
 
-  String _savedPaymentOpration = "";
-  String _billingCity = "";
-  String _billingStreet = "";
-  String _billingCountryCode = "";
-  String _billingPostalCode = "";
-  String _shippingCity = "";
-  String _shippingStreet = "";
-  String _shippingCountryCode = "";
-  String _shippingPostalCode = "";
+  final TextEditingController _billingCity = TextEditingController();
+  final TextEditingController _billingStreet = TextEditingController();
+  final TextEditingController _billingCountryCode = TextEditingController();
+  final TextEditingController _billingPostalCode = TextEditingController();
+
+  final TextEditingController _shippingCity = TextEditingController();
+  final TextEditingController _shippingStreet = TextEditingController();
+  final TextEditingController _shippingCountryCode = TextEditingController();
+  final TextEditingController _shippingPostalCode = TextEditingController();
+
+  String _savedPaymentOperation = "";
 
   Color _colorText = const Color(0xffffffff);
   Color _colorCard = const Color(0xffff4d00);
@@ -92,13 +93,14 @@ class ConfigurationState extends State<Configuration> {
     _language = (await keySdkLanguage.getPrefData() ?? _language) == "EN"
         ? "English"
         : _language;
-    _savedPaymentOpration =
+    _savedPaymentOperation =
         await keyPaymentOperation.getPrefData() ?? _paymentOperations[0];
 
     _paymentOptions = {
       "show_billing": (await keyShowBilling.getPrefData() == "true"),
       "show_shipping": (await keyShowShipping.getPrefData() == "true"),
       "show_save_card": (await keyShowSaveCard.getPrefData() == "true"),
+      "card_on_file": (await keyCardOnFile.getPrefData() == "true"),
     };
 
     _merchantKeyController.text = 'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
@@ -111,15 +113,15 @@ class ConfigurationState extends State<Configuration> {
         await keyMerchantRefId.getPrefData() ?? "";
     _customerEmailController.text = await keyCustomerEmail.getPrefData() ?? "";
 
-    _billingCity = await keyBillingCity.getPrefData() ?? "";
-    _billingStreet = await keyBillingStreet.getPrefData() ?? "";
-    _billingCountryCode = await keyBillingCountryCode.getPrefData() ?? "";
-    _billingPostalCode = await keyBillingPostalCode.getPrefData() ?? "";
+    _billingCity.text = await keyBillingCity.getPrefData() ?? "";
+    _billingStreet.text = await keyBillingStreet.getPrefData() ?? "";
+    _billingCountryCode.text = await keyBillingCountryCode.getPrefData() ?? "";
+    _billingPostalCode.text = await keyBillingPostalCode.getPrefData() ?? "";
 
-    _shippingCity = await keyShippingCity.getPrefData() ?? "";
-    _shippingStreet = await keyShippingStreet.getPrefData() ?? "";
-    _shippingCountryCode = await keyShippingCountryCode.getPrefData() ?? "";
-    _shippingPostalCode = await keyShippingPostalCode.getPrefData() ?? "";
+    _shippingCity.text = await keyShippingCity.getPrefData() ?? "";
+    _shippingStreet.text = await keyShippingStreet.getPrefData() ?? "";
+    _shippingCountryCode.text = await keyShippingCountryCode.getPrefData() ?? "";
+    _shippingPostalCode.text = await keyShippingPostalCode.getPrefData() ?? "";
 
     _colorText =
         HexColor.fromHex(await keyColorText.getPrefData() ?? _colorText.hex);
@@ -185,12 +187,16 @@ class ConfigurationState extends State<Configuration> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           _verticalSizeBox,
-          _environmentWidget('Preprod', 'Prod', _environment, (type) {
-            setState(() {
-              _environment = type;
-            });
-            type.addPrefData(keyEnvironment);
-          }),
+          TabSelector(
+              title1: 'Preprod',
+              title2: 'Prod',
+              selectedTitle: _environment,
+              onClick: (type) {
+                setState(() {
+                  _environment = type;
+                });
+                type.addPrefData(keyEnvironment);
+              }),
           _merchant(),
           _verticalSizeBox,
           Text(
@@ -198,13 +204,29 @@ class ConfigurationState extends State<Configuration> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           _verticalSizeBox,
-          _environmentWidget('English', 'Arabic', _language, (type) {
-            setState(() {
-              _language = type;
-            });
-            (type == "English" ? "EN" : "AR").addPrefData(keySdkLanguage);
-          }),
-          _paymentDetailWidget(),
+          TabSelector(
+              title1: 'English',
+              title2: 'Arabic',
+              selectedTitle: _language,
+              onClick: (type) {
+                setState(() {
+                  _language = type;
+                });
+                (type == "English" ? "EN" : "AR").addPrefData(keySdkLanguage);
+              }),
+          PaymentDetail(
+              savedPaymentOperation: _savedPaymentOperation,
+              paymentOperations: _paymentOperations,
+              currencyController: _currencyController,
+              callbackUrlController: _callbackUrlController,
+              paymentIntentIdController: _paymentIntentIdController,
+              merchantReferenceIdController: _merchantReferenceIdController,
+              paymentOptions: _paymentOptions,
+              onCheckChange: (key, value) {
+                setState(() {
+                  _paymentOptions[key] = value ?? false;
+                });
+              }),
           _verticalSizeBox,
           Text(
             "Customer details (Checkout Screen)",
@@ -228,14 +250,26 @@ class ConfigurationState extends State<Configuration> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           _verticalSizeBox,
-          _addressFormWidget(true),
+          Address(
+            isBilling: true,
+            city: _billingCity,
+            street: _billingStreet,
+            countryCode: _billingCountryCode,
+            postalCode: _billingPostalCode,
+          ),
           _verticalSizeBox,
           Text(
             "Shipping address",
             style: Theme.of(context).textTheme.titleMedium,
           ),
           _verticalSizeBox,
-          _addressFormWidget(false),
+          Address(
+            isBilling: false,
+            city: _shippingCity,
+            street: _shippingStreet,
+            countryCode: _shippingCountryCode,
+            postalCode: _shippingPostalCode,
+          ),
           Text(
             "UI color schemes",
             style: Theme.of(context).textTheme.titleMedium,
@@ -290,62 +324,6 @@ class ConfigurationState extends State<Configuration> {
     );
   }
 
-  Widget _environmentWidget(String title1, String title2, String selectedTitle,
-      Function(String selection) onClick) {
-    return Row(
-      children: [
-        InkWell(
-          onTap: () => onClick(title1),
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-            decoration: BoxDecoration(
-                color: (selectedTitle == title1)
-                    ? Colors.blue.withOpacity(0.2)
-                    : Colors.transparent,
-                border: Border.all(
-                    color:
-                        (selectedTitle == title1) ? Colors.blue : Colors.grey,
-                    width: 1),
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5.0),
-                    bottomLeft: Radius.circular(5.0))),
-            child: Text(
-              title1.toUpperCase(),
-              style: TextStyle(
-                color: (selectedTitle == title1) ? Colors.blue : Colors.grey,
-              ),
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () => onClick(title2),
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-            decoration: BoxDecoration(
-                color: (selectedTitle == title2)
-                    ? Colors.blue.withOpacity(0.2)
-                    : Colors.transparent,
-                border: Border.all(
-                    color:
-                        (selectedTitle == title2) ? Colors.blue : Colors.grey,
-                    width: 1),
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(5.0),
-                    bottomRight: Radius.circular(5.0))),
-            child: Text(
-              title2.toUpperCase(),
-              style: TextStyle(
-                color: (selectedTitle == title2) ? Colors.blue : Colors.grey,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _merchant() {
     return Padding(
       padding: const EdgeInsets.only(left: 60, right: 60, top: 20),
@@ -395,296 +373,6 @@ class ConfigurationState extends State<Configuration> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _paymentDetailWidget() {
-    return Column(
-      children: [
-        _verticalSizeBox,
-        Text(
-          "Payment Details",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        _verticalSizeBox,
-        TextFormField(
-          controller: _currencyController,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            border: OutlineInputBorder(),
-            labelText: "Currency *",
-            counterText: "",
-          ),
-        ),
-        _verticalSizeBox,
-        Text(
-          "Endpoints",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        _verticalSizeBox,
-        TextFormField(
-          controller: _callbackUrlController,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            border: OutlineInputBorder(),
-            labelText: "Callback URL",
-            counterText: "",
-          ),
-        ),
-        _verticalSizeBox,
-        TextFormField(
-          controller: _paymentIntentIdController,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            border: OutlineInputBorder(),
-            labelText: "Payment intent ID",
-            counterText: "",
-          ),
-        ),
-        /*
-        _verticalSizeBox,
-        DropdownButtonFormField2(
-          decoration: const InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            border: OutlineInputBorder(),
-            labelText: "Theme",
-            counterText: "",
-          ),
-          isExpanded: true,
-          items: _themeOptions
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ))
-              .toList(),
-          validator: (value) {
-            if (value == null) {
-              return 'Please select theme.';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            value.addPrefData(keyTheme);
-          },
-          onSaved: (value) {
-            value.addPrefData(keyTheme);
-          },
-          value: _savedTheme,
-          iconStyleData: const IconStyleData(
-            icon: Icon(
-              Icons.arrow_drop_down,
-            ),
-            iconSize: 30,
-          ),
-        ),*/
-        _verticalSizeBox,
-        Text(
-          "Payment options",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CheckboxListTile(
-                title: const Text("Show Billing"),
-                value: _paymentOptions["show_billing"],
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _paymentOptions["show_billing"] = value ?? false;
-                  });
-                  value.addPrefData(keyShowBilling);
-                },
-              ),
-            ),
-            Expanded(
-              child: CheckboxListTile(
-                title: const Text("Show Shipping"),
-                value: _paymentOptions["show_shipping"],
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _paymentOptions["show_shipping"] = value ?? false;
-                  });
-                  value.addPrefData(keyShowShipping);
-                },
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CheckboxListTile(
-                title: const Text("Show Save Card"),
-                value: _paymentOptions["show_save_card"],
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _paymentOptions["show_save_card"] = value ?? false;
-                  });
-                  value.addPrefData(keyShowSaveCard);
-                },
-              ),
-            ),
-          ],
-        ),
-        _verticalSizeBox,
-        TextFormField(
-          controller: _merchantReferenceIdController,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            border: OutlineInputBorder(),
-            labelText: "Merchant Reference ID",
-            counterText: "",
-          ),
-        ),
-        _verticalSizeBox,
-        _dropDownWidget("Payment Operation", _savedPaymentOpration,
-            _paymentOperations, keyPaymentOperation),
-        /*_verticalSizeBox,
-        _dropDownWidget(
-            "Initiated By", _savedInitiatedItem, _initiatedItem, keyInitiated),*/
-      ],
-    );
-  }
-
-  Widget _dropDownWidget(
-      String hint, String initialValue, List<String> items, String keyPref) {
-    return DropdownButtonFormField2(
-      decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        border: const OutlineInputBorder(),
-        labelText: hint,
-        counterText: "",
-      ),
-      isExpanded: true,
-      items: items
-          .map((item) => DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ))
-          .toList(),
-      validator: (value) {
-        if (value == null) {
-          return 'Please select connectivity.';
-        }
-        return null;
-      },
-      onChanged: (value) {
-        value.addPrefData(keyPref);
-      },
-      onSaved: (value) {
-        value.addPrefData(keyPref);
-      },
-      value: initialValue,
-      iconStyleData: const IconStyleData(
-        icon: Icon(
-          Icons.arrow_drop_down,
-        ),
-        iconSize: 30,
-      ),
-    );
-  }
-
-  Widget _addressFormWidget(bool isBilling) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'City',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
-            ),
-            initialValue: isBilling ? _billingCity : _shippingCity,
-            onChanged: (String? value) => isBilling
-                ? value.addPrefData(keyBillingCity)
-                : value.addPrefData(keyShippingCity),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Street name & number',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
-            ),
-            initialValue: isBilling ? _billingStreet : _shippingStreet,
-            onChanged: (String? value) => isBilling
-                ? value.addPrefData(keyBillingStreet)
-                : value.addPrefData(keyShippingStreet),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 5,
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Country Code',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                  ),
-                  initialValue:
-                      isBilling ? _billingCountryCode : _shippingCountryCode,
-                  onChanged: (String? value) => isBilling
-                      ? value.addPrefData(keyBillingCountryCode)
-                      : value.addPrefData(keyShippingCountryCode),
-                ),
-              ),
-              _horizontalSizeBox,
-              Expanded(
-                flex: 5,
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Postal',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                  ),
-                  initialValue:
-                      isBilling ? _billingPostalCode : _shippingPostalCode,
-                  onChanged: (String? value) => isBilling
-                      ? value.addPrefData(keyBillingPostalCode)
-                      : value.addPrefData(keyShippingPostalCode),
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
     );
   }
 

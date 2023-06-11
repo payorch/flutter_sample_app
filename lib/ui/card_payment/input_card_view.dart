@@ -44,6 +44,7 @@ class InputCardView extends StatelessWidget {
               floatingLabelBehavior: FloatingLabelBehavior.auto,
               border: OutlineInputBorder(),
               labelText: "Card Number *"),
+          validator: validateNumber('card number'),
         ),
         const SizedBox(
           height: 10,
@@ -63,6 +64,7 @@ class InputCardView extends StatelessWidget {
                   labelText: "Exp. month *",
                   counterText: "",
                 ),
+                validator: validateNumber('expiry month'),
               ),
             ),
             const SizedBox(
@@ -84,6 +86,7 @@ class InputCardView extends StatelessWidget {
                   labelText: "Exp. year *",
                   counterText: "",
                 ),
+                validator: validateNumber('expiry year'),
               ),
             ),
             const SizedBox(
@@ -105,6 +108,7 @@ class InputCardView extends StatelessWidget {
                   labelText: "CVV *",
                   counterText: "",
                 ),
+                validator: validateNumber('cvv'),
               ),
             ),
           ],
@@ -125,8 +129,18 @@ class InputCardView extends StatelessWidget {
             labelText: "Card holder *",
             counterText: "",
           ),
+          validator: validateNumber('card holder name'),
         ),
       ],
     );
+  }
+
+  validateNumber(String s) {
+    return (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter ' + s;
+      }
+      return null;
+    };
   }
 }
