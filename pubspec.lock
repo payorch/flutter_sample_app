@@ -181,7 +181,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: e9c7d3890c8d265f015fe99d7385da57d4f91517
+      resolved-ref: ca1c37366b05846b32b7eb27baf7f830d125759d
       url: "https://github.com/MIMOCODES-DEV/geideapay.git"
     source: git
     version: "0.0.1"
@@ -197,10 +197,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.5"
+    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:

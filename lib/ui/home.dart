@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/storage/app_preference.dart';
 import 'package:test_app/ui/card_payment/card_payment.dart';
 import 'package:test_app/ui/configuration/configuration.dart';
 
@@ -12,6 +13,13 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    "".addPrefData(keyMerchantKey);
+    "".addPrefData(keyMerchantPass);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

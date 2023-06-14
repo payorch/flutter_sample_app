@@ -90,7 +90,7 @@ class ConfigurationState extends State<Configuration> {
 
   void _setData() async {
     _environment = await keyEnvironment.getPrefData() ?? _environment;
-    _language = (await keySdkLanguage.getPrefData() ?? _language) == "EN"
+    _language = (await keySdkLanguage.getPrefData() ?? "AR") == "EN"
         ? "English"
         : _language;
     _savedPaymentOperation =
@@ -103,8 +103,10 @@ class ConfigurationState extends State<Configuration> {
       "card_on_file": (await keyCardOnFile.getPrefData() == "true"),
     };
 
-    _merchantKeyController.text = 'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
-    _merchantPasswordController.text = '0c9b36c1-3410-4b96-878a-dbd54ace4e9a';
+    _merchantKeyController.text = await keyMerchantKey.getPrefData() ??
+        ""; //'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
+    _merchantPasswordController.text = await keyMerchantPass.getPrefData() ??
+        ""; //'0c9b36c1-3410-4b96-878a-dbd54ace4e9a';
     _currencyController.text = 'EGP';
     _callbackUrlController.text = await keyCallbackUrl.getPrefData() ?? "";
     _paymentIntentIdController.text =
@@ -120,7 +122,8 @@ class ConfigurationState extends State<Configuration> {
 
     _shippingCity.text = await keyShippingCity.getPrefData() ?? "";
     _shippingStreet.text = await keyShippingStreet.getPrefData() ?? "";
-    _shippingCountryCode.text = await keyShippingCountryCode.getPrefData() ?? "";
+    _shippingCountryCode.text =
+        await keyShippingCountryCode.getPrefData() ?? "";
     _shippingPostalCode.text = await keyShippingPostalCode.getPrefData() ?? "";
 
     _colorText =

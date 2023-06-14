@@ -59,8 +59,8 @@ class CardPaymentState extends State<CardPayment> {
 
   void _setData() async {
     _plugin.initialize(
-        publicKey: 'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70',
-        apiPassword: '0c9b36c1-3410-4b96-878a-dbd54ace4e9a');
+        publicKey: await keyMerchantKey.getPrefData() ?? "",
+        apiPassword: await keyMerchantPass.getPrefData() ?? "");
 
     _currency =
         await keyCurrency.getPrefData() ?? await "EGP".addPrefData(keyCurrency);
@@ -259,7 +259,7 @@ class CardPaymentState extends State<CardPayment> {
       (await keyAmount.getPrefData()).toString(),
       (await keyCurrency.getPrefData()).toString(),
       callbackUrl: await keyCallbackUrl.getPrefData() ?? "",
-      lang: await keySdkLanguage.getPrefData(),
+      lang: await keySdkLanguage.getPrefData() ?? "AR",
       billingAddress: billingAddress,
       shippingAddress: shippingAddress,
       customerEmail: await keyCustomerEmail.getPrefData(),
