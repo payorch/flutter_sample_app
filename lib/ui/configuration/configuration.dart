@@ -1,11 +1,11 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:test_app/storage/app_preference.dart';
-import 'package:test_app/ui/configuration/includes/address.dart';
-import 'package:test_app/ui/configuration/includes/payment_detail.dart';
-import 'package:test_app/ui/configuration/includes/tab_selector.dart';
+import '../../storage/app_preference.dart';
+import 'includes/address.dart';
+import 'includes/payment_detail.dart';
+import 'includes/tab_selector.dart';
 import 'package:test_app/utils/HexColor.dart';
+import '../../config/globals.dart' as globals;
 
 class Configuration extends StatefulWidget {
   const Configuration({super.key});
@@ -103,11 +103,11 @@ class ConfigurationState extends State<Configuration> {
       "card_on_file": (await keyCardOnFile.getPrefData() == "true"),
     };
 
-    _merchantKeyController.text = await keyMerchantKey.getPrefData() ??
-        ""; //'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
-    _merchantPasswordController.text = await keyMerchantPass.getPrefData() ??
-        ""; //'0c9b36c1-3410-4b96-878a-dbd54ace4e9a';
-    _currencyController.text = 'EGP';
+    _merchantKeyController.text =
+        globals.keyMerchantKey ?? ""; //'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
+    _merchantPasswordController.text =
+        globals.keyMerchantPass ?? ""; //'0c9b36c1-3410-4b96-878a-dbd54ace4e9a';
+    _currencyController.text = await keyCurrency.getPrefData() ?? 'EGP';
     _callbackUrlController.text = await keyCallbackUrl.getPrefData() ?? "";
     _paymentIntentIdController.text =
         await keyPaymentIntentId.getPrefData() ?? "";
@@ -143,10 +143,10 @@ class ConfigurationState extends State<Configuration> {
 
   void _addListener() {
     _merchantKeyController.addListener(() {
-      _merchantKeyController.text.toString().addPrefData(keyMerchantKey);
+      globals.keyMerchantKey = _merchantKeyController.text.toString();
     });
     _merchantPasswordController.addListener(() {
-      _merchantPasswordController.text.toString().addPrefData(keyMerchantPass);
+      globals.keyMerchantPass = _merchantPasswordController.text.toString();
     });
     _currencyController.addListener(() {
       _currencyController.text.toString().addPrefData(keyCurrency);

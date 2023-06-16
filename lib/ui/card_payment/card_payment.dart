@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geideapay/api/request/initiate_authentication_request_body.dart';
@@ -10,9 +9,10 @@ import 'package:geideapay/api/response/authentication_api_response.dart';
 import 'package:geideapay/geideapay.dart';
 import 'package:geideapay/models/address.dart';
 import 'package:geideapay/widgets/checkout/checkout_options.dart';
-import 'package:test_app/storage/app_preference.dart';
-import 'package:test_app/ui/card_payment/input_card_view.dart';
-import 'package:test_app/utils/HexColor.dart';
+import '../../storage/app_preference.dart';
+import 'input_card_view.dart';
+import '../../utils/HexColor.dart';
+import '../../config/globals.dart' as globals;
 
 enum PaymentType { geidea, merchant }
 
@@ -59,8 +59,8 @@ class CardPaymentState extends State<CardPayment> {
 
   void _setData() async {
     _plugin.initialize(
-        publicKey: await keyMerchantKey.getPrefData() ?? "",
-        apiPassword: await keyMerchantPass.getPrefData() ?? "");
+        publicKey: globals.keyMerchantKey ?? "",
+        apiPassword: globals.keyMerchantPass ?? "");
 
     _currency =
         await keyCurrency.getPrefData() ?? await "EGP".addPrefData(keyCurrency);
@@ -223,7 +223,7 @@ class CardPaymentState extends State<CardPayment> {
                           _orderId != null && _threeDSecureId != null),
                     if (_character == PaymentType.merchant)
                       _getPlatformButton('Refund', () => _handleRefund(context),
-                          orderApiResponse != null),
+                          orderApiResponse != null && _orderId != null),
                   ]);
                 }),
               ],

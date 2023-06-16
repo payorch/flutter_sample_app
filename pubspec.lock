@@ -179,11 +179,9 @@ packages:
   geideapay:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: ca1c37366b05846b32b7eb27baf7f830d125759d
-      url: "https://github.com/MIMOCODES-DEV/geideapay.git"
-    source: git
+      path: geideapay
+      relative: true
+    source: path
     version: "0.0.1"
   html:
     dependency: transitive
@@ -197,10 +195,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      sha256: "4c3f04bfb64d3efd508d06b41b825542f08122d30bda4933fb95c069d22a4fa3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.6"
+    version: "1.0.0"
   http_parser:
     dependency: transitive
     description:
@@ -213,10 +211,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.0"
+    version: "0.18.1"
   js:
     dependency: transitive
     description:

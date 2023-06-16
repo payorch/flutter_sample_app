@@ -1,8 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String keyEnvironment = "keyEnvironment";
-const String keyMerchantKey = "keyMerchantKey";
-const String keyMerchantPass = "keyMerchantPass";
 const String keySdkLanguage = "keySdkLanguage";
 const String keyCurrency = "keyCurrency";
 const String keyCallbackUrl = "keyCallbackUrl";

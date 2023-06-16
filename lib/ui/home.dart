@@ -13,12 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  @override
-  void initState() {
-    super.initState();
-    "".addPrefData(keyMerchantKey);
-    "".addPrefData(keyMerchantPass);
-  }
 
   @override
   Widget build(BuildContext context) {
