@@ -20,6 +20,8 @@ class MyDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
       decoration: InputDecoration(
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: const OutlineInputBorder(),
         labelText: hint,

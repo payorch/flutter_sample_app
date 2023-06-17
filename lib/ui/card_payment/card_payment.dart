@@ -63,7 +63,7 @@ class CardPaymentState extends State<CardPayment> {
         apiPassword: globals.keyMerchantPass ?? "");
 
     _currency =
-        await keyCurrency.getPrefData() ?? await "EGP".addPrefData(keyCurrency);
+        await keyCurrency.getPrefData() ?? "";
     _callbackUrl = await keyCallbackUrl.getPrefData() ?? _callbackUrl;
 
     _amountController.text =
@@ -264,12 +264,10 @@ class CardPaymentState extends State<CardPayment> {
       shippingAddress: shippingAddress,
       customerEmail: await keyCustomerEmail.getPrefData(),
       merchantReferenceID: await keyMerchantRefId.getPrefData(),
-      paymentIntentId: await keyPaymentIntentId.getPrefData(),
+      paymentIntentId: null,
       paymentOperation: await keyPaymentOperation.getPrefData(),
-      showShipping: await keyShowShipping.getPrefData() == "true",
-      showBilling: await keyShowBilling.getPrefData() == "true",
-      showSaveCard: await keyShowSaveCard.getPrefData() == "true",
-      cardOnFile: await keyCardOnFile.getPrefData() == "true",
+      showAddress: await keyShowAddress.getPrefData() == "true",
+      showEmail: await keyShowEmail.getPrefData() == "true",
       textColor:
           HexColor.fromHex(await keyColorText.getPrefData() ?? "#ffffff"),
       cardColor:
@@ -310,8 +308,7 @@ class CardPaymentState extends State<CardPayment> {
       InitiateAuthenticationRequestBody initiateAuthenticationRequestBody =
           InitiateAuthenticationRequestBody(
               _amountController.text, _currency, card?.number,
-              callbackUrl: _callbackUrl,
-              cardOnFile: await keyCardOnFile.getPrefData() == "true");
+              callbackUrl: _callbackUrl, cardOnFile: true);
       try {
         AuthenticationApiResponse response =
             await _plugin.initiateAuthentication(
@@ -338,8 +335,7 @@ class CardPaymentState extends State<CardPayment> {
       PayerAuthenticationRequestBody payerAuthenticationRequestBody =
           PayerAuthenticationRequestBody(
               _amountController.text, _currency, card, _orderId!,
-              callbackUrl: _callbackUrl,
-              cardOnFile: await keyCardOnFile.getPrefData() == "true");
+              callbackUrl: _callbackUrl, cardOnFile: true);
 
       try {
         AuthenticationApiResponse response = await _plugin.payerAuthentication(

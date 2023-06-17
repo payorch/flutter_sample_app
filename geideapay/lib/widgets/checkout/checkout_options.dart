@@ -16,11 +16,11 @@ class CheckoutOptions {
   String? callbackUrl;
   String? returnUrl;
   final String? merchantReferenceID;
-  bool? cardOnFile, showBilling, showShipping, showSaveCard;
+  bool? cardOnFile, showAddress, showSaveCard, showEmail;
   String? paymentOperation;
   Address? billingAddress;
   Address? shippingAddress;
-  final String? customerEmail;
+  String? customerEmail;
   final String? paymentIntentId;
   String? lang;
   Color? backgroundColor;
@@ -30,29 +30,26 @@ class CheckoutOptions {
   Color? cancelButtonColor;
 
   CheckoutOptions(this.amount, this.currency,
-      {
-        this.callbackUrl,
-        this.cardOnFile,
-        this.merchantReferenceID,
-        this.paymentOperation,
-        this.billingAddress,
-        this.shippingAddress,
-        this.customerEmail,
-        this.paymentIntentId,
-        this.backgroundColor,
-        this.cardColor,
-        this.textColor,
-        this.payButtonColor,
-        this.cancelButtonColor,
-        this.lang,
-      this.showBilling,
-      this.showShipping,
-      this.showSaveCard})
-  {
-    if(paymentOperation != null && paymentOperation!.startsWith("Default"))
-      {
-        paymentOperation = null;
-      }
+      {this.callbackUrl,
+      this.cardOnFile,
+      this.merchantReferenceID,
+      this.paymentOperation,
+      this.billingAddress,
+      this.shippingAddress,
+      this.customerEmail,
+      this.paymentIntentId,
+      this.backgroundColor,
+      this.cardColor,
+      this.textColor,
+      this.payButtonColor,
+      this.cancelButtonColor,
+      this.lang,
+      this.showAddress,
+      this.showSaveCard,
+      this.showEmail}) {
+    if (paymentOperation != null && paymentOperation!.startsWith("Default")) {
+      paymentOperation = null;
+    }
     returnUrl = "https://returnurl.com";
     backgroundColor ??= const Color(0xff2c2222);
     cardColor ??= const Color(0xffff4d00);
@@ -60,12 +57,12 @@ class CheckoutOptions {
     payButtonColor ??= const Color(0xffff4d00);
     cancelButtonColor ??= const Color(0xff878787);
     lang ??= "EN";
-    showBilling ??= false;
-    showShipping ??= false;
+    showAddress ??= false;
     showSaveCard ??= false;
-    if(this.billingAddress != null && (this.billingAddress!).isempty())
+    showEmail ??= false;
+    if (this.billingAddress != null && (this.billingAddress!).isempty())
       this.billingAddress = null;
-    if(this.shippingAddress != null && (this.shippingAddress!).isempty())
+    if (this.shippingAddress != null && (this.shippingAddress!).isempty())
       this.shippingAddress = null;
   }
 }

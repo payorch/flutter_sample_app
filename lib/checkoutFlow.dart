@@ -374,8 +374,7 @@ class _CheckoutFlowState extends State<CheckoutFlow> {
         merchantReferenceID: merchantReferenceID,
         paymentIntentId: paymentIntentID,
         paymentOperation: paymentOperation,
-        showShipping: showShipping,
-        showBilling: showBilling,
+        showAddress: showShipping,
         showSaveCard: showSaveCard,
       );
 

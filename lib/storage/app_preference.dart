@@ -1,17 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String keyEnvironment = "keyEnvironment";
 const String keySdkLanguage = "keySdkLanguage";
 const String keyCurrency = "keyCurrency";
 const String keyCallbackUrl = "keyCallbackUrl";
-const String keyPaymentIntentId = "keyPaymentIntentId";
-const String keyTheme = "keyTheme";
-const String keyShowBilling = "keyShowBilling";
-const String keyShowShipping = "keyShowShipping";
-const String keyShowSaveCard = "keyShowSaveCard";
-const String keyCardOnFile = "keyCardOnFile";
+const String keyShowEmail = "keyShowEmail";
+const String keyShowAddress = "keyShowAddress";
 const String keyMerchantRefId = "keyMerchantRefId";
-const String keyInitiated = "keyInitiated";
 const String keyCustomerEmail = "keyCustomerEmail";
 const String keyAmount = "keyAmount";
 const String keyPaymentType = "keyPaymentType";

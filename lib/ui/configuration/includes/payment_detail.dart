@@ -11,7 +11,6 @@ class PaymentDetail extends StatelessWidget {
 
   final TextEditingController currencyController;
   final TextEditingController callbackUrlController;
-  final TextEditingController paymentIntentIdController;
   final TextEditingController merchantReferenceIdController;
   final Map<String, bool> paymentOptions;
   final Function(String key, bool? value) onCheckChange;
@@ -22,7 +21,6 @@ class PaymentDetail extends StatelessWidget {
     required this.paymentOperations,
     required this.currencyController,
     required this.callbackUrlController,
-    required this.paymentIntentIdController,
     required this.merchantReferenceIdController,
     required this.paymentOptions,
     required this.onCheckChange,
@@ -43,6 +41,7 @@ class PaymentDetail extends StatelessWidget {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
             border: OutlineInputBorder(),
             labelText: "Currency *",
@@ -60,21 +59,10 @@ class PaymentDetail extends StatelessWidget {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
             border: OutlineInputBorder(),
             labelText: "Callback URL",
-            counterText: "",
-          ),
-        ),
-        _verticalSizeBox,
-        TextFormField(
-          controller: paymentIntentIdController,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            border: OutlineInputBorder(),
-            labelText: "Payment intent ID",
             counterText: "",
           ),
         ),
@@ -87,49 +75,29 @@ class PaymentDetail extends StatelessWidget {
           children: [
             Expanded(
               child: CheckboxListTile(
-                title: const Text("Show Billing"),
-                value: paymentOptions["show_billing"],
+                title: Text(
+                  "Show Email",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                value: paymentOptions["show_email"],
                 controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: EdgeInsets.zero,
                 onChanged: (bool? value) {
-                  onCheckChange("show_billing", value);
-                  value.addPrefData(keyShowBilling);
+                  onCheckChange("show_email", value);
                 },
               ),
             ),
             Expanded(
               child: CheckboxListTile(
-                title: const Text("Show Shipping"),
-                value: paymentOptions["show_shipping"],
+                title: Text(
+                  "Show Address",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                value: paymentOptions["show_address"],
                 controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: EdgeInsets.zero,
                 onChanged: (bool? value) {
-                  onCheckChange("show_shipping", value);
-                  value.addPrefData(keyShowShipping);
-                },
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CheckboxListTile(
-                title: const Text("Show Save Card"),
-                value: paymentOptions["show_save_card"],
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (bool? value) {
-                  onCheckChange("show_save_card", value);
-                  value.addPrefData(keyShowSaveCard);
-                },
-              ),
-            ),
-            Expanded(
-              child: CheckboxListTile(
-                title: const Text("Card on File"),
-                value: paymentOptions["card_on_file"],
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (bool? value) {
-                  onCheckChange("card_on_file", value);
-                  value.addPrefData(keyCardOnFile);
+                  onCheckChange("show_address", value);
                 },
               ),
             ),
@@ -141,6 +109,7 @@ class PaymentDetail extends StatelessWidget {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
             border: OutlineInputBorder(),
             labelText: "Merchant Reference ID",
