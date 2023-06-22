@@ -179,9 +179,11 @@ packages:
   geideapay:
     dependency: "direct main"
     description:
-      path: "../geideapay"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "2a184581ea6be2d97ea580f8a6bd174f6b3c0069"
+      url: "https://github.com/payorch/flutter_sdk.git"
+    source: git
     version: "0.0.1"
   html:
     dependency: transitive
