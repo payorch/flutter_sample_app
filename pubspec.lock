@@ -179,7 +179,7 @@ packages:
   geideapay:
     dependency: "direct main"
     description:
-      path: geideapay
+      path: "../geideapay"
       relative: true
     source: path
     version: "0.0.1"
