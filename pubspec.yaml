@@ -31,7 +31,6 @@ dependencies:
     sdk: flutter
 
   geideapay:
-#    path: ./../geideapay/
     git:
       url: https://github.com/payorch/flutter_sdk.git
       ref: main # branch name
