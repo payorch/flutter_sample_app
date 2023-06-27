@@ -30,9 +30,9 @@ dependencies:
 3. Then, in your code import:
 
 ```
-	import 'package:geideapay/geideapay.dart';
-	import 'package:geideapay/models/address.dart';
-	import 'package:geideapay/widgets/checkout/checkout_options.dart';
+import 'package:geideapay/geideapay.dart';
+import 'package:geideapay/models/address.dart';
+import 'package:geideapay/widgets/checkout/checkout_options.dart';
 
 ```
 
@@ -41,13 +41,13 @@ dependencies:
 The integration starts by adding your merchant credentials (Merchant Public Key and API password) with the `GeideapayPlugin.initialize()`method.
 
 ```
-	final _plugin = GeideapayPlugin();
+final _plugin = GeideapayPlugin();
 
-	@override
-	void initState() {
-		super.initState();
-		_plugin.initialize(publicKey: "<YOUR MERCHANT KEY>",apiPassword: "<YOUR MERCHANT PASSWORD>");
-	}
+@override
+void initState() {
+	super.initState();
+	_plugin.initialize(publicKey: "<YOUR MERCHANT KEY>",apiPassword: "<YOUR MERCHANT PASSWORD>");
+}
 
 ```
 
@@ -58,40 +58,40 @@ IMPORTANT:
 ### Building your CheckoutOptions
 
 ```
-	Address billingAddress = Address(
-        city: "Riyadh",
-        countryCode: "SAU",
-        street: "Street 1",
-        postCode: "1000");
-    Address shippingAddress = Address(
-        city: "Riyadh",
-        countryCode: "SAU",
-        street: "Street 1",
-        postCode: "1000");
+Address billingAddress = Address(
+	city: "Riyadh",
+	countryCode: "SAU",
+	street: "Street 1",
+	postCode: "1000");
+Address shippingAddress = Address(
+	city: "Riyadh",
+	countryCode: "SAU",
+	street: "Street 1",
+	postCode: "1000");
 
-    CheckoutOptions checkoutOptions = CheckoutOptions(
-      "123.45",
-      "SAR",
-      callbackUrl: "https://website.hook/", //Optional
-      lang: "AR", //Optional
-      billingAddress: billingAddress, //Optional
-      shippingAddress: shippingAddress, //Optional
-      customerEmail: "email@noreply.test", //Optional
-      merchantReferenceID: "1234", //Optional
-      paymentIntentId: null, //Optional
-      paymentOperation: "Pay", //Optional
-      showAddress: true, //Optional
-      showEmail: true, //Optional
-      textColor: "#ffffff", //Optional
-      cardColor: "#ff4d00", //Optional
-      payButtonColor: "#ff4d00", //Optional
-      cancelButtonColor: "#878787", //Optional
-      backgroundColor: "#2c2222", //Optional
-    );
+CheckoutOptions checkoutOptions = CheckoutOptions(
+	"123.45",
+	"SAR",
+    callbackUrl: "https://website.hook/", //Optional
+    lang: "AR", //Optional
+    billingAddress: billingAddress, //Optional
+    shippingAddress: shippingAddress, //Optional
+    customerEmail: "email@noreply.test", //Optional
+    merchantReferenceID: "1234", //Optional
+    paymentIntentId: null, //Optional
+    paymentOperation: "Pay", //Optional
+    showAddress: true, //Optional
+    showEmail: true, //Optional
+    textColor: "#ffffff", //Optional
+    cardColor: "#ff4d00", //Optional
+    payButtonColor: "#ff4d00", //Optional
+    cancelButtonColor: "#878787", //Optional
+    backgroundColor: "#2c2222", //Optional
+);
 
 ```
 
-### Call checkout to open payment screen
+### Call `checkout` method to open payment screen
 
 ```
 try {
