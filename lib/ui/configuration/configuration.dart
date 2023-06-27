@@ -146,7 +146,9 @@ class ConfigurationState extends State<Configuration> {
       appBar: AppBar(
         title: const Text("Configuration"),
       ),
-      body: _body(),
+      body: SafeArea(
+        child: _body(),
+      ),
     );
   }
 
@@ -333,7 +335,6 @@ class ConfigurationState extends State<Configuration> {
           child: Center(
             child: Text("Save".toUpperCase()),
           ),
-
         ),
     ]);
   }

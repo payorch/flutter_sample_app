@@ -181,7 +181,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "2a184581ea6be2d97ea580f8a6bd174f6b3c0069"
+      resolved-ref: b6e22130cc8d120fb3d64f9b1d0b79a61240af8d
       url: "https://github.com/payorch/flutter_sdk.git"
     source: git
     version: "0.0.1"
