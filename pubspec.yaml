@@ -34,7 +34,7 @@ dependencies:
 #    path: ./../geideapay/
     git:
       url: https://github.com/payorch/flutter_sdk.git
-      ref: main # branch name
+      ref: flutter_downgrade_to_3.0.5 # branch name
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
