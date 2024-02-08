@@ -152,7 +152,7 @@ class CardPaymentState extends State<CardPayment> {
                           leading: Radio(
                               value: PaymentType.geidea,
                               groupValue: _character,
-                              onChanged: (value) {
+                              onChanged: (PaymentType? value) {
                                 setState(() {
                                   _character = value;
                                   value.addPrefData(keyPaymentType);
@@ -171,7 +171,7 @@ class CardPaymentState extends State<CardPayment> {
                           leading: Radio(
                               value: PaymentType.merchant,
                               groupValue: _character,
-                              onChanged: (value) {
+                              onChanged: (PaymentType? value) {
                                 setState(() {
                                   _character = value;
                                   value.addPrefData(keyPaymentType);

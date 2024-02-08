@@ -20,12 +20,6 @@
 # hide the original source file name.
 -renamesourcefileattribute SourceFile
 
--keep public class * extends java.lang.Exception
-
--keep class * implements com.apollographql.apollo.api.InputType { *; }
-
--keep class com.google.firebase.** { *; }
-
 #Flutter Wrapper
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.plugin.** { *; }
@@ -33,19 +27,7 @@
 -keep class io.flutter.view.** { *; }
 -keep class io.flutter.** { *; }
 -keep class io.flutter.plugins.** { *; }
--keepattributes Annotation
--keepnames class * implements java.io.Serializable
--keepclassmembers class * implements java.io.Serializable {
-static final long serialVersionUID;
-private static final java.io.ObjectStreamField[] serialPersistentFields;
-!static !transient <fields>;
-private void writeObject(java.io.ObjectOutputStream);
-private void readObject(java.io.ObjectInputStream);
-java.lang.Object writeReplace();
-java.lang.Object readResolve();
+
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
 }
--keep interface com.payfort.fortpaymentsdk. { *; }
--keep class com.payfort.fortpaymentsdk.** {*; }
--keep class com.fawry.** { *; }
--keep class com.google.gson.** { *; }
--dontwarn com.google.gson.**
