@@ -36,6 +36,7 @@ class ConfigurationState extends State<Configuration> {
       TextEditingController();
   final TextEditingController _currencyController = TextEditingController();
   final TextEditingController _callbackUrlController = TextEditingController();
+  final TextEditingController _returnUrlController = TextEditingController();
   final TextEditingController _merchantReferenceIdController =
       TextEditingController();
   final TextEditingController _customerEmailController =
@@ -82,10 +83,11 @@ class ConfigurationState extends State<Configuration> {
       "show_address": (await keyShowAddress.getPrefData() == "true"),
     };
 
-    _merchantKeyController.text = globals.keyMerchantKey ?? "";
-    _merchantPasswordController.text = globals.keyMerchantPass ?? "";
+    _merchantKeyController.text = globals.keyMerchantKey ?? "6620c3e2-5088-41a8-8be6-98c003153932";
+    _merchantPasswordController.text = globals.keyMerchantPass ?? "7e0d5b14-1721-4653-b6f2-29288400472b";
     _currencyController.text = await keyCurrency.getPrefData() ?? "";
     _callbackUrlController.text = await keyCallbackUrl.getPrefData() ?? "";
+    _returnUrlController.text = await keyReturnUrl.getPrefData() ?? "";
     _merchantReferenceIdController.text =
         await keyMerchantRefId.getPrefData() ?? "";
     _customerEmailController.text = await keyCustomerEmail.getPrefData() ?? "";
@@ -117,6 +119,7 @@ class ConfigurationState extends State<Configuration> {
   void _saveData() {
     _currencyController.text.toString().addPrefData(keyCurrency);
     _callbackUrlController.text.toString().addPrefData(keyCallbackUrl);
+    _returnUrlController.text.toString().addPrefData(keyReturnUrl);
     _merchantReferenceIdController.text
         .toString()
         .addPrefData(keyMerchantRefId);
@@ -202,6 +205,7 @@ class ConfigurationState extends State<Configuration> {
                   paymentOperations: _paymentOperations,
                   currencyController: _currencyController,
                   callbackUrlController: _callbackUrlController,
+                  returnUrlController: _returnUrlController,
                   merchantReferenceIdController: _merchantReferenceIdController,
                   paymentOptions: _paymentOptions,
                   onCheckChange: (key, value) {
