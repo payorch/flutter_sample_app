@@ -83,8 +83,8 @@ class ConfigurationState extends State<Configuration> {
       "show_address": (await keyShowAddress.getPrefData() == "true"),
     };
 
-    _merchantKeyController.text = globals.keyMerchantKey ?? "6620c3e2-5088-41a8-8be6-98c003153932";
-    _merchantPasswordController.text = globals.keyMerchantPass ?? "7e0d5b14-1721-4653-b6f2-29288400472b";
+    _merchantKeyController.text = globals.keyMerchantKey ?? "";
+    _merchantPasswordController.text = globals.keyMerchantPass ?? "";
     _currencyController.text = await keyCurrency.getPrefData() ?? "";
     _callbackUrlController.text = await keyCallbackUrl.getPrefData() ?? "";
     _returnUrlController.text = await keyReturnUrl.getPrefData() ?? "";
