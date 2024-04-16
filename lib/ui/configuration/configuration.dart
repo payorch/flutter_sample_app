@@ -159,7 +159,9 @@ class ConfigurationState extends State<Configuration> {
       appBar: AppBar(
         title: const Text("Configuration"),
       ),
-      body: _body(),
+      body: SafeArea(
+        child: _body(),
+      ),
     );
   }
 
