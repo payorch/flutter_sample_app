@@ -60,7 +60,7 @@ class CardPaymentState extends State<CardPayment> {
     _plugin.initialize(
         publicKey: globals.keyMerchantKey ?? "",
         apiPassword: globals.keyMerchantPass ?? "",
-        baseUrl: globals.keyBaseUrl ?? "");
+        serverEnvironment: globals.keyEnv);
 
     _currency = await keyCurrency.getPrefData() ?? "";
     _callbackUrl = await keyCallbackUrl.getPrefData() ?? _callbackUrl;
